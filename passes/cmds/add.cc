@@ -24,10 +24,9 @@ PRIVATE_NAMESPACE_BEGIN
 
 static bool is_formal_celltype(const std::string &celltype)
 {
-	if(celltype == "assert" || celltype == "assume" || celltype == "live" || celltype == "fair" || celltype == "cover")
-		return true;
-	else
-		return false;
+	static std::vector<std::string> formalCelltypeVec{"assert", "assume", "live", "fair", "cover"};
+	return std::any_of(formalCelltypeVec.begin(), formalCelltypeVec.end(),
+	 [&celltype](const std::string &currCellType){return celltype == currCellType;});
 }
 
 static void add_formal(RTLIL::Module *module, const std::string &celltype, const std::string &name, const std::string &enable_name)
